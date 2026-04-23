@@ -55,12 +55,21 @@ function StretchPage() {
   const data = Route.useLoaderData() as { stretch: GentleStretch };
   const s = data.stretch;
   const { has, toggle } = useFavorites();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { checked, toggle: toggleCheck } = useChecklist(
     `stretch:${s.id}`,
     s.steps.length,
   );
   const isFav = has(`stretch:${s.id}`);
   const doneCount = checked.filter(Boolean).length;
+  const handleFav = () => {
+    if (!user) {
+      navigate({ to: "/login", search: { redirect: `/stretch/${s.id}` } });
+      return;
+    }
+    toggle(`stretch:${s.id}`);
+  };
 
   return (
     <AppShell hideTabBar>
