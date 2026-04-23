@@ -377,11 +377,30 @@ function ProfilePage() {
       </section>
 
       {/* 免责声明 */}
-      <section className="px-5 py-4">
+      <section className="px-5 pt-4">
         <div className="rounded-3xl bg-sage-soft/60 p-4">
           <p className="text-xs font-medium text-sage-deep">📌 免责声明</p>
           <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-soft">{disclaimerText}</p>
         </div>
+      </section>
+
+      {/* 退出登录 */}
+      <section className="px-5 pb-4 pt-4">
+        <Button
+          variant="ghost"
+          onClick={handleSignOut}
+          disabled={signingOut}
+          className="h-12 w-full rounded-2xl bg-white text-[14px] text-accent shadow-soft hover:bg-rose-soft/30"
+        >
+          {signingOut ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <>
+              <LogOut className="mr-1.5 h-4 w-4" strokeWidth={1.8} />
+              退出登录
+            </>
+          )}
+        </Button>
       </section>
     </AppShell>
   );
