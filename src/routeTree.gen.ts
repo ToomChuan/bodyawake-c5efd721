@@ -9,13 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RehabRouteImport } from './routes/rehab'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as BodyRouteImport } from './routes/body'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StretchIdRouteImport } from './routes/stretch.$id'
 import { Route as IssueIdRouteImport } from './routes/issue.$id'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RehabRoute = RehabRouteImport.update({
   id: '/rehab',
   path: '/rehab',
@@ -24,6 +38,16 @@ const RehabRoute = RehabRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BodyRoute = BodyRouteImport.update({
@@ -50,16 +74,24 @@ const IssueIdRoute = IssueIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/body': typeof BodyRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/rehab': typeof RehabRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/signup': typeof SignupRoute
   '/issue/$id': typeof IssueIdRoute
   '/stretch/$id': typeof StretchIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/body': typeof BodyRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/rehab': typeof RehabRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/signup': typeof SignupRoute
   '/issue/$id': typeof IssueIdRoute
   '/stretch/$id': typeof StretchIdRoute
 }
@@ -67,8 +99,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/body': typeof BodyRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/rehab': typeof RehabRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/signup': typeof SignupRoute
   '/issue/$id': typeof IssueIdRoute
   '/stretch/$id': typeof StretchIdRoute
 }
@@ -77,18 +113,36 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/body'
+    | '/forgot-password'
+    | '/login'
     | '/profile'
     | '/rehab'
+    | '/reset-password'
+    | '/signup'
     | '/issue/$id'
     | '/stretch/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/body' | '/profile' | '/rehab' | '/issue/$id' | '/stretch/$id'
+  to:
+    | '/'
+    | '/body'
+    | '/forgot-password'
+    | '/login'
+    | '/profile'
+    | '/rehab'
+    | '/reset-password'
+    | '/signup'
+    | '/issue/$id'
+    | '/stretch/$id'
   id:
     | '__root__'
     | '/'
     | '/body'
+    | '/forgot-password'
+    | '/login'
     | '/profile'
     | '/rehab'
+    | '/reset-password'
+    | '/signup'
     | '/issue/$id'
     | '/stretch/$id'
   fileRoutesById: FileRoutesById
@@ -96,14 +150,32 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BodyRoute: typeof BodyRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
   ProfileRoute: typeof ProfileRoute
   RehabRoute: typeof RehabRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SignupRoute: typeof SignupRoute
   IssueIdRoute: typeof IssueIdRoute
   StretchIdRoute: typeof StretchIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rehab': {
       id: '/rehab'
       path: '/rehab'
@@ -116,6 +188,20 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/body': {
@@ -152,8 +238,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BodyRoute: BodyRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
   ProfileRoute: ProfileRoute,
   RehabRoute: RehabRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SignupRoute: SignupRoute,
   IssueIdRoute: IssueIdRoute,
   StretchIdRoute: StretchIdRoute,
 }
