@@ -195,7 +195,7 @@ function StretchPage() {
       >
         <div className="flex items-center gap-3">
           <button
-            onClick={() => toggle(`stretch:${s.id}`)}
+            onClick={handleFav}
             className="grid h-12 w-12 flex-shrink-0 place-content-center rounded-2xl bg-rose-soft transition-transform active:scale-95"
             aria-label={isFav ? "取消收藏" : "收藏"}
           >
