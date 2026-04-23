@@ -1,8 +1,9 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { findStretch, type GentleStretch } from "@/data/knowledge";
 import { useFavorites } from "@/hooks/use-favorites";
 import { useChecklist } from "@/hooks/use-checklist";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Heart,
   ChevronLeft,
