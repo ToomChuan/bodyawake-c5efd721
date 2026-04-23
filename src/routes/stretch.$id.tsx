@@ -1,8 +1,9 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { findStretch, type GentleStretch } from "@/data/knowledge";
 import { useFavorites } from "@/hooks/use-favorites";
 import { useChecklist } from "@/hooks/use-checklist";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Heart,
   ChevronLeft,
@@ -54,12 +55,21 @@ function StretchPage() {
   const data = Route.useLoaderData() as { stretch: GentleStretch };
   const s = data.stretch;
   const { has, toggle } = useFavorites();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { checked, toggle: toggleCheck } = useChecklist(
     `stretch:${s.id}`,
     s.steps.length,
   );
   const isFav = has(`stretch:${s.id}`);
   const doneCount = checked.filter(Boolean).length;
+  const handleFav = () => {
+    if (!user) {
+      navigate({ to: "/login", search: { redirect: `/stretch/${s.id}` } });
+      return;
+    }
+    toggle(`stretch:${s.id}`);
+  };
 
   return (
     <AppShell hideTabBar>
@@ -185,7 +195,7 @@ function StretchPage() {
       >
         <div className="flex items-center gap-3">
           <button
-            onClick={() => toggle(`stretch:${s.id}`)}
+            onClick={handleFav}
             className="grid h-12 w-12 flex-shrink-0 place-content-center rounded-2xl bg-rose-soft transition-transform active:scale-95"
             aria-label={isFav ? "取消收藏" : "收藏"}
           >

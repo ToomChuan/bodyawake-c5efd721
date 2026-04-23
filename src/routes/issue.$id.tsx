@@ -1,8 +1,9 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { findIssue, type CommonIssue } from "@/data/knowledge";
 import { useFavorites } from "@/hooks/use-favorites";
 import { useChecklist } from "@/hooks/use-checklist";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Heart,
   ChevronLeft,
@@ -53,12 +54,21 @@ function IssuePage() {
   const data = Route.useLoaderData() as { issue: CommonIssue };
   const c = data.issue;
   const { has, toggle } = useFavorites();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { checked, toggle: toggleCheck } = useChecklist(
     `issue:${c.id}`,
     c.gentleSolution.steps.length,
   );
   const isFav = has(`issue:${c.id}`);
   const doneCount = checked.filter(Boolean).length;
+  const handleFav = () => {
+    if (!user) {
+      navigate({ to: "/login", search: { redirect: `/issue/${c.id}` } });
+      return;
+    }
+    toggle(`issue:${c.id}`);
+  };
 
   return (
     <AppShell hideTabBar>
@@ -186,7 +196,7 @@ function IssuePage() {
       >
         <div className="flex items-center gap-3">
           <button
-            onClick={() => toggle(`issue:${c.id}`)}
+            onClick={handleFav}
             className="grid h-12 w-12 flex-shrink-0 place-content-center rounded-2xl bg-rose-soft transition-transform active:scale-95"
             aria-label={isFav ? "取消收藏" : "收藏"}
           >

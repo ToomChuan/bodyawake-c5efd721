@@ -1,16 +1,17 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader } from "@/components/PageHeader";
 import { useFavorites } from "@/hooks/use-favorites";
 import { usePeriod } from "@/hooks/use-period";
+import { useAuth } from "@/hooks/use-auth";
 import {
   commonIssues,
   gentleStretches,
   dailyHabits,
   disclaimerText,
 } from "@/data/knowledge";
-import { Heart, Info, FileText, ChevronRight, Sun, Flower2 } from "lucide-react";
+import { Heart, Info, FileText, ChevronRight, Sun, Flower2, LogOut, Loader2, LogIn } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -137,8 +138,90 @@ function PeriodSection() {
   );
 }
 
+function GuestProfile() {
+  return (
+    <AppShell>
+      <PageHeader title="我的" />
+      <section className="px-5 pt-4">
+        <div className="rounded-3xl bg-white p-6 text-center shadow-soft">
+          <div className="mx-auto grid h-16 w-16 place-content-center rounded-full bg-sage-soft text-3xl">
+            🌿
+          </div>
+          <h2 className="mt-4 text-[17px] font-semibold text-foreground">还没有登录</h2>
+          <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
+            登录后可以收藏喜欢的内容、记录经期和日常养护，温柔陪伴你认识身体。
+          </p>
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <Link
+              to="/login"
+              search={{ redirect: "/profile" }}
+              className="flex h-11 items-center justify-center rounded-2xl bg-primary text-[14px] text-primary-foreground shadow-soft active:opacity-90"
+            >
+              <LogIn className="mr-1.5 h-4 w-4" strokeWidth={1.8} />
+              登录
+            </Link>
+            <Link
+              to="/signup"
+              className="flex h-11 items-center justify-center rounded-2xl border border-border/70 bg-white text-[14px] text-foreground active:bg-sage-soft/40"
+            >
+              注册
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 日常养护（即使未登录也可以看） */}
+      <section className="px-5 pt-4">
+        <h2 className="mb-2 px-1 text-[13px] text-muted-foreground">日常温柔养护</h2>
+        <ul className="space-y-2.5">
+          {dailyHabits.slice(0, 3).map((h) => (
+            <li key={h.id} className="rounded-3xl bg-white p-4 shadow-soft">
+              <div className="flex items-center gap-2">
+                <span className="grid h-7 w-7 place-content-center rounded-full bg-sage-soft">
+                  <Sun className="h-3.5 w-3.5 text-sage-deep" strokeWidth={1.8} />
+                </span>
+                <p className="text-[14px] font-semibold text-foreground">{h.name}</p>
+              </div>
+              <p className="mt-2 text-[12.5px] leading-relaxed text-ink-soft">{h.description}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="px-5 py-4">
+        <div className="rounded-3xl bg-sage-soft/60 p-4">
+          <p className="text-xs font-medium text-sage-deep">📌 免责声明</p>
+          <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-soft">{disclaimerText}</p>
+        </div>
+      </section>
+    </AppShell>
+  );
+}
+
 function ProfilePage() {
+  const { user, loading, signOut } = useAuth();
+  const navigate = useNavigate();
   const { ids } = useFavorites();
+  const [signingOut, setSigningOut] = useState(false);
+
+  if (loading) {
+    return (
+      <AppShell>
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <Loader2 className="h-6 w-6 animate-spin text-ink-soft" />
+        </div>
+      </AppShell>
+    );
+  }
+
+  if (!user) return <GuestProfile />;
+
+  const handleSignOut = async () => {
+    setSigningOut(true);
+    await signOut();
+    setSigningOut(false);
+    navigate({ to: "/login", search: { redirect: "/profile" } });
+  };
 
   const favs: FavRow[] = ids
     .map<FavRow | null>((key) => {
@@ -155,6 +238,8 @@ function ProfilePage() {
     })
     .filter((x): x is FavRow => x !== null);
 
+  const displayName = user.email?.split("@")[0] ?? "温柔的你";
+
   return (
     <AppShell>
       <PageHeader title="我的" />
@@ -165,9 +250,9 @@ function ProfilePage() {
           <div className="grid h-14 w-14 place-content-center rounded-full bg-sage-soft text-2xl">
             🌿
           </div>
-          <div>
-            <p className="text-base font-semibold text-foreground">温柔的你</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">陪你一起认识身体</p>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-base font-semibold text-foreground">{displayName}</p>
+            <p className="mt-0.5 truncate text-xs text-muted-foreground">{user.email}</p>
           </div>
         </div>
       </section>
@@ -292,11 +377,30 @@ function ProfilePage() {
       </section>
 
       {/* 免责声明 */}
-      <section className="px-5 py-4">
+      <section className="px-5 pt-4">
         <div className="rounded-3xl bg-sage-soft/60 p-4">
           <p className="text-xs font-medium text-sage-deep">📌 免责声明</p>
           <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-soft">{disclaimerText}</p>
         </div>
+      </section>
+
+      {/* 退出登录 */}
+      <section className="px-5 pb-4 pt-4">
+        <Button
+          variant="ghost"
+          onClick={handleSignOut}
+          disabled={signingOut}
+          className="h-12 w-full rounded-2xl bg-white text-[14px] text-accent shadow-soft hover:bg-rose-soft/30"
+        >
+          {signingOut ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <>
+              <LogOut className="mr-1.5 h-4 w-4" strokeWidth={1.8} />
+              退出登录
+            </>
+          )}
+        </Button>
       </section>
     </AppShell>
   );
