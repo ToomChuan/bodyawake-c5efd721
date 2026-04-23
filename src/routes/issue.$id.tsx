@@ -54,12 +54,21 @@ function IssuePage() {
   const data = Route.useLoaderData() as { issue: CommonIssue };
   const c = data.issue;
   const { has, toggle } = useFavorites();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { checked, toggle: toggleCheck } = useChecklist(
     `issue:${c.id}`,
     c.gentleSolution.steps.length,
   );
   const isFav = has(`issue:${c.id}`);
   const doneCount = checked.filter(Boolean).length;
+  const handleFav = () => {
+    if (!user) {
+      navigate({ to: "/login", search: { redirect: `/issue/${c.id}` } });
+      return;
+    }
+    toggle(`issue:${c.id}`);
+  };
 
   return (
     <AppShell hideTabBar>
