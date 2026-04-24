@@ -49,7 +49,7 @@ const frontHotspots: Hotspot[] = [
 ];
 
 const backHotspots: Hotspot[] = [
-  { part: "neck",     top: "22%", left: "50%" },
+  { part: "neck",     top: "25%", left: "50%" },
   { part: "back",     top: "33%", left: "50%" },
   { part: "waist",    top: "43%", left: "50%" },
   { part: "hip",      top: "53%", left: "37%" },
