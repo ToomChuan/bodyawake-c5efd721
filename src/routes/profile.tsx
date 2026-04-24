@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader } from "@/components/PageHeader";
+import CheckinPanel from "@/components/checkin/CheckinPanel";
 import { useFavorites } from "@/hooks/use-favorites";
 import { usePeriod } from "@/hooks/use-period";
 import { useAuth } from "@/hooks/use-auth";
@@ -258,6 +259,7 @@ function ProfilePage() {
       </section>
 
       <PeriodSection />
+      <CheckinPanel />
 
       {/* 收藏 */}
       <section className="px-5 pt-4">
