@@ -34,7 +34,15 @@ export function DisclaimerDialog() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(o) => {
+        if (!o) {
+          try { window.localStorage.setItem(KEY, "1"); } catch {}
+        }
+        setOpen(o);
+      }}
+    >
       <DialogContent className="rounded-3xl border-0 bg-cream p-7 shadow-float sm:max-w-[360px] [&>button]:hidden">
         <DialogHeader className="space-y-3 text-center sm:text-center">
           <div className="mx-auto grid h-14 w-14 place-content-center rounded-full bg-sage-soft">

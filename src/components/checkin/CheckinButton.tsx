@@ -24,6 +24,12 @@ export default function CheckinButton({ onCheckedIn }: CheckinButtonProps) {
         const checkin = await getCheckinData();
         if (!active) return;
 
+        if (checkin === null) {
+          setStatus("checked");
+          setMessage("请先登录后再打卡");
+          return;
+        }
+
         const checkedToday = checkin.last_checkin_date === getTodayDateString();
         setStatus(checkedToday ? "checked" : "idle");
       } catch (error) {

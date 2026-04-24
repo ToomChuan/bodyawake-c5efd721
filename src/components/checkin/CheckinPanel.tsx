@@ -17,7 +17,7 @@ export default function CheckinPanel() {
   const refreshCheckinData = useCallback(async () => {
     try {
       const data = await getCheckinData();
-      setCheckinData(data);
+      setCheckinData(data ?? EMPTY_DATA);
     } catch (error) {
       console.error("[Checkin Panel Error][refreshCheckinData]:", error);
       setCheckinData(EMPTY_DATA);

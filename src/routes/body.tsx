@@ -41,19 +41,19 @@ interface Hotspot {
 }
 
 const frontHotspots: Hotspot[] = [
-  { part: "neck", top: "13%", left: "50%" },
-  { part: "shoulder", top: "20%", left: "32%" },
-  { part: "abdomen", top: "45%", left: "50%" },
-  { part: "thigh", top: "65%", left: "44%" },
-  { part: "calf", top: "85%", left: "55%" },
+  { part: "neck",     top: "14%", left: "50%" },
+  { part: "shoulder", top: "22%", left: "31%" },
+  { part: "abdomen",  top: "44%", left: "50%" },
+  { part: "thigh",    top: "63%", left: "43%" },
+  { part: "calf",     top: "80%", left: "55%" },
 ];
 
 const backHotspots: Hotspot[] = [
-  { part: "neck", top: "13%", left: "50%" },
-  { part: "back", top: "30%", left: "50%" },
-  { part: "waist", top: "45%", left: "50%" },
-  { part: "hip", top: "55%", left: "38%" },
-  { part: "buttocks", top: "60%", left: "55%" },
+  { part: "neck",     top: "14%", left: "50%" },
+  { part: "back",     top: "28%", left: "50%" },
+  { part: "waist",    top: "43%", left: "50%" },
+  { part: "hip",      top: "53%", left: "37%" },
+  { part: "buttocks", top: "59%", left: "54%" },
 ];
 
 function BodyPage() {
@@ -99,7 +99,7 @@ function BodyPage() {
           width={512}
           height={896}
           loading="lazy"
-          className="h-full w-full object-contain"
+          className="h-full w-full object-fill"
         />
         {hotspots.map((h) => (
           <button

@@ -17,7 +17,7 @@ function normalizeBadges(raw: unknown): string[] {
   return raw.filter((item): item is string => typeof item === "string");
 }
 
-export async function getCheckinData(): Promise<CheckinData> {
+export async function getCheckinData(): Promise<CheckinData | null> {
   try {
     const {
       data: { user },
@@ -29,7 +29,7 @@ export async function getCheckinData(): Promise<CheckinData> {
     }
 
     if (!user) {
-      return DEFAULT_CHECKIN_DATA;
+      return null;
     }
 
     const { data, error } = await supabase
