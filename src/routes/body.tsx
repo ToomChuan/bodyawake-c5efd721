@@ -41,16 +41,16 @@ interface Hotspot {
 }
 
 const frontHotspots: Hotspot[] = [
-  { part: "neck",     top: "14%", left: "50%" },
-  { part: "shoulder", top: "22%", left: "31%" },
+  { part: "neck",     top: "24%", left: "50%" },
+  { part: "shoulder", top: "24%", left: "70%" },
   { part: "abdomen",  top: "44%", left: "50%" },
   { part: "thigh",    top: "63%", left: "43%" },
   { part: "calf",     top: "80%", left: "55%" },
 ];
 
 const backHotspots: Hotspot[] = [
-  { part: "neck",     top: "14%", left: "50%" },
-  { part: "back",     top: "28%", left: "50%" },
+  { part: "neck",     top: "22%", left: "50%" },
+  { part: "back",     top: "33%", left: "50%" },
   { part: "waist",    top: "43%", left: "50%" },
   { part: "hip",      top: "53%", left: "37%" },
   { part: "buttocks", top: "59%", left: "54%" },
