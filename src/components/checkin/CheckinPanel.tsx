@@ -52,7 +52,6 @@ export default function CheckinPanel() {
         ) : (
           <BadgeWall
             currentStreak={checkinData.current_streak}
-            unlockedBadges={checkinData.unlocked_badges}
           />
         )}
       </div>
