@@ -21,7 +21,7 @@ const BADGE_CATALOG: BadgeItem[] = [
 export default function BadgeWall({ currentStreak }: BadgeWallProps) {
   return (
     <section className="w-full rounded-3xl border border-[#DDE8DA] bg-[#F6FAF5] p-5">
-      {/* 顶部文案保持”鼓励感”，避免紧张感 */}
+      {/* 顶部文案保持"鼓励感"，避免紧张感 */}
       <h2 className="text-lg font-semibold tracking-wide text-[#2E4A41]">
         已连续舒缓 <span className="text-[#9D7C8A]">{currentStreak}</span> 天
       </h2>
