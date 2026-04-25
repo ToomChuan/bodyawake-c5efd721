@@ -20,14 +20,14 @@ const BADGE_CATALOG: BadgeItem[] = [
 
 export default function BadgeWall({ currentStreak }: BadgeWallProps) {
   return (
-    <section className=”w-full rounded-3xl border border-[#DDE8DA] bg-[#F6FAF5] p-5”>
+    <section className="w-full rounded-3xl border border-[#DDE8DA] bg-[#F6FAF5] p-5">
       {/* 顶部文案保持”鼓励感”，避免紧张感 */}
-      <h2 className=”text-lg font-semibold tracking-wide text-[#2E4A41]”>
-        已连续舒缓 <span className=”text-[#9D7C8A]”>{currentStreak}</span> 天
+      <h2 className="text-lg font-semibold tracking-wide text-[#2E4A41]">
+        已连续舒缓 <span className="text-[#9D7C8A]">{currentStreak}</span> 天
       </h2>
-      <p className=”mt-1 text-sm text-[#60756D]”>每一次轻柔练习，都是在和身体温柔合作。</p>
+      <p className="mt-1 text-sm text-[#60756D]">每一次轻柔练习，都是在和身体温柔合作。</p>
 
-      <div className=”mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3”>
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {BADGE_CATALOG.map((badge) => {
           const unlocked = Number(currentStreak) >= Number(badge.days);
 
