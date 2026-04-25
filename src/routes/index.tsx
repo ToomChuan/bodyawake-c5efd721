@@ -83,7 +83,9 @@ function HomePage() {
   const { isInPeriod } = usePeriod();
   // 把"反焦虑辟谣"的 healthTips 放在 Feed 顶部当亮点
   const featuredTip = healthTips.find((t) => t.category === "反焦虑辟谣");
-  const feedIssues = commonIssues.slice(0, 5);
+  const today = new Date();
+  const dateSeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+  const dailyIssue = commonIssues[dateSeed % commonIssues.length];
 
   return (
     <AppShell>
@@ -176,41 +178,35 @@ function HomePage() {
             更多 <ChevronRight className="h-3.5 w-3.5" />
           </Link>
         </div>
-        <ul className="space-y-3">
-          {feedIssues.map((c) => (
-            <li key={c.id}>
-              <Link
-                to="/issue/$id"
-                params={{ id: c.id }}
-                className="block rounded-3xl bg-white p-4 shadow-soft transition-transform active:scale-[0.99]"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-[15px] font-semibold text-foreground">{c.name}</h3>
-                    <div className="mt-1.5 flex flex-wrap gap-1.5">
-                      {c.tags.slice(0, 3).map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full bg-sage-soft px-2 py-0.5 text-[10px] text-sage-deep"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <span className="grid h-8 w-8 flex-shrink-0 place-content-center rounded-full bg-rose-soft">
-                    <Sparkles className="h-4 w-4 text-accent" strokeWidth={1.5} />
+        <Link
+          to="/issue/$id"
+          params={{ id: dailyIssue.id }}
+          className="block rounded-3xl bg-white p-4 shadow-soft transition-transform active:scale-[0.99]"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-[15px] font-semibold text-foreground">{dailyIssue.name}</h3>
+              <div className="mt-1.5 flex flex-wrap gap-1.5">
+                {dailyIssue.tags.slice(0, 3).map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full bg-sage-soft px-2 py-0.5 text-[10px] text-sage-deep"
+                  >
+                    {t}
                   </span>
-                </div>
-                <blockquote className="mt-3 rounded-2xl bg-sage-soft/60 px-3 py-2.5 text-[12.5px] leading-relaxed text-ink">
-                  <span className="text-sage-deep">「</span>
-                  {c.affirmation}
-                  <span className="text-sage-deep">」</span>
-                </blockquote>
-              </Link>
-            </li>
-          ))}
-        </ul>
+                ))}
+              </div>
+            </div>
+            <span className="grid h-8 w-8 flex-shrink-0 place-content-center rounded-full bg-rose-soft">
+              <Sparkles className="h-4 w-4 text-accent" strokeWidth={1.5} />
+            </span>
+          </div>
+          <blockquote className="mt-3 rounded-2xl bg-sage-soft/60 px-3 py-2.5 text-[12.5px] leading-relaxed text-ink">
+            <span className="text-sage-deep">「</span>
+            {dailyIssue.affirmation}
+            <span className="text-sage-deep">」</span>
+          </blockquote>
+        </Link>
       </section>
     </AppShell>
   );
