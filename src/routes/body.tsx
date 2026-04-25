@@ -42,7 +42,7 @@ interface Hotspot {
 
 const frontHotspots: Hotspot[] = [
   { part: "neck",     top: "28%", left: "50%" },
-  { part: "shoulder", top: "32%", left: "60%" },
+  { part: "shoulder", top: "32%", left: "64%" },
   { part: "abdomen",  top: "44%", left: "50%" },
   { part: "thigh",    top: "63%", left: "43%" },
   { part: "calf",     top: "80%", left: "55%" },
